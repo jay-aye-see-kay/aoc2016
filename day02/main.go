@@ -63,27 +63,17 @@ func (k *Keypad) move(move string) {
 }
 
 func (k Keypad) toKey() string {
-	if k.x == 0 && k.y == 0 {
-		return "1"
-	} else if k.x == 1 && k.y == 0 {
-		return "2"
-	} else if k.x == 2 && k.y == 0 {
-		return "3"
-	} else if k.x == 0 && k.y == 1 {
-		return "4"
-	} else if k.x == 1 && k.y == 1 {
-		return "5"
-	} else if k.x == 2 && k.y == 1 {
-		return "6"
-	} else if k.x == 0 && k.y == 2 {
-		return "7"
-	} else if k.x == 1 && k.y == 2 {
-		return "8"
-	} else if k.x == 2 && k.y == 2 {
-		return "9"
-	} else {
-		panic("unknown key pos")
-	}
+	return map[Keypad]string{
+		{0, 0}: "1",
+		{1, 0}: "2",
+		{2, 0}: "3",
+		{0, 1}: "4",
+		{1, 1}: "5",
+		{2, 1}: "6",
+		{0, 2}: "7",
+		{1, 2}: "8",
+		{2, 2}: "9",
+	}[k]
 }
 
 func min(x int, y int) int {
@@ -121,79 +111,33 @@ var xyMinMap = map[int]int{
 	4: 2,
 }
 
-func (k *Keypad2) maxX() int {
-	val, ok := xyMaxMap[k.y]
-	if !ok {
-		panic("can't get max x")
-	}
-	return val
-}
-
-func (k *Keypad2) minX() int {
-	val, ok := xyMinMap[k.y]
-	if !ok {
-		panic("can't get max x")
-	}
-	return val
-}
-
-func (k *Keypad2) maxY() int {
-	val, ok := xyMaxMap[k.x]
-	if !ok {
-		panic("can't get max y")
-	}
-	return val
-}
-
-func (k *Keypad2) minY() int {
-	val, ok := xyMinMap[k.x]
-	if !ok {
-		panic("can't get max y")
-	}
-	return val
-}
-
 func (k *Keypad2) move(move string) {
 	switch move {
 	case "U":
-		k.y = max(k.y-1, k.minY())
+		k.y = max(k.y-1, xyMinMap[k.x])
 	case "D":
-		k.y = min(k.y+1, k.maxY())
+		k.y = min(k.y+1, xyMaxMap[k.x])
 	case "L":
-		k.x = max(k.x-1, k.minX())
+		k.x = max(k.x-1, xyMinMap[k.y])
 	case "R":
-		k.x = min(k.x+1, k.maxX())
+		k.x = min(k.x+1, xyMaxMap[k.y])
 	}
 }
 
 func (k Keypad2) toKey() string {
-	if k.x == 2 && k.y == 0 {
-		return "1"
-	} else if k.x == 1 && k.y == 1 {
-		return "2"
-	} else if k.x == 2 && k.y == 1 {
-		return "3"
-	} else if k.x == 3 && k.y == 1 {
-		return "4"
-	} else if k.x == 0 && k.y == 2 {
-		return "5"
-	} else if k.x == 1 && k.y == 2 {
-		return "6"
-	} else if k.x == 2 && k.y == 2 {
-		return "7"
-	} else if k.x == 3 && k.y == 2 {
-		return "8"
-	} else if k.x == 4 && k.y == 2 {
-		return "9"
-	} else if k.x == 1 && k.y == 3 {
-		return "A"
-	} else if k.x == 2 && k.y == 3 {
-		return "B"
-	} else if k.x == 3 && k.y == 3 {
-		return "C"
-	} else if k.x == 2 && k.y == 4 {
-		return "D"
-	} else {
-		panic("unknown key pos")
-	}
+	return map[Keypad2]string{
+		{2, 0}: "1",
+		{1, 1}: "2",
+		{2, 1}: "3",
+		{3, 1}: "4",
+		{0, 2}: "5",
+		{1, 2}: "6",
+		{2, 2}: "7",
+		{3, 2}: "8",
+		{4, 2}: "9",
+		{1, 3}: "A",
+		{2, 3}: "B",
+		{3, 3}: "C",
+		{2, 4}: "D",
+	}[k]
 }
