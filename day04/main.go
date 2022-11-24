@@ -16,6 +16,7 @@ func main() {
 	text := strings.TrimSpace(string(content))
 
 	fmt.Println("part 1:", part1(text))
+	fmt.Println("part 2:", part2(text))
 }
 
 type Room struct {
@@ -78,4 +79,31 @@ func part1(text string) int {
 		}
 	}
 	return sumOfRoomIds
+}
+
+func part2(text string) int {
+	for _, line := range strings.Split(text, "\n") {
+		room := parseRoom(line)
+		if shiftCipher(room.encryptedName, room.id) == "northpole object storage" {
+			return room.id
+		}
+	}
+	panic("northpole obect storage not found")
+}
+
+func shiftCipher(input string, count int) string {
+	count = count % 26
+	rotated := ""
+	for _, char := range input {
+		if char == '-' {
+			rotated += " "
+		} else {
+			newChar := int(char) + count
+			if newChar > 122 {
+				newChar -= 26
+			}
+			rotated += string(rune(newChar))
+		}
+	}
+	return rotated
 }

@@ -46,3 +46,21 @@ func TestDay1(t *testing.T) {
 		t.Errorf("Expected %+v but received %+v", expected, actual)
 	}
 }
+
+func TestShiftCipher(t *testing.T) {
+	actual := shiftCipher("qzmt-zixmtkozy-ivhz", 343)
+	expected := "very encrypted name"
+	if actual != expected {
+		t.Errorf("Expected \"%+v\" but received \"%+v\"", expected, actual)
+	}
+}
+
+func TestDay2(t *testing.T) {
+	content, _ := ioutil.ReadFile("../inputs/day04.txt")
+	text := strings.TrimSpace(string(content))
+	actual := part2(text)
+	expected := 324
+	if actual != expected {
+		t.Errorf("Expected %+v but received %+v", expected, actual)
+	}
+}
